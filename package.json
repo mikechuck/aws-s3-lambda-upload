@@ -1,8 +1,7 @@
 {
   "name": "scripts",
   "version": "1.0.0",
-  "description": "",
-  "main": "s3upload.js",
+  "main": "upload.js",
   "scripts": {
     "upload": "node upload.js"
   },

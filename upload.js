@@ -1,14 +1,3 @@
-// ****************************** //
-//
-// Sample call: node s3upload.js LAMBDA_FUNCTION autorest-file TEST_LAMBDA_FUNCTION us-east-2
-//
-// args: - folder to zip
-// 			 - name of s3 bucket
-// 			 - name of lambda function
-// 			 - region of s3 bucket + lambda function
-//
-// ****************************** //
-
 // Import your credentials however you have them saved
 const credentials = require('../credentials')
 

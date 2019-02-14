@@ -1,4 +1,4 @@
-#
+# AWS S3 Lambda Upload
 Simple script to zip a file, upload it to s3, and upload that s3 object to a lambda function.
 
 ## Getting Started
