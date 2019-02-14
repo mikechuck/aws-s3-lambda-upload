@@ -7,7 +7,8 @@ const fs = require('fs')
 const archiver = require('archiver')
 var AWS = require('aws-sdk')
 
-let zipFolder = config.zipFolder
+let pathToFolder = config.pathToFolder
+let zipFolder =	pathToFolder.split('/').pop()
 let s3Bucket = config.s3Bucket
 let lambdaFunction = config.lambdaFunction
 let region = config.region
@@ -17,23 +18,6 @@ AWS.config.update({
 	accessKeyId: credentials.aws_access_key_id,
 	secretAccessKey: credentials.aws_secret_access_key
 });
-
-// Zip all of the files in the given directory
-console.log('Zipping Lambda function...')
-let output = fs.createWriteStream(zipFolder + '.zip')
-let archive = archiver('zip', {
-	zlib: { level: 9 }
-})
-
-output.on('close', () => {
-	console.log(archive.pointer() + ' total bytes');
-	console.log('Done.')
-	uploadZipToS3()
-})
-
-archive.pipe(output)
-archive.directory(zipFolder, false)
-archive.finalize()
 
 let uploadZipToS3 = () => {
 	console.log('Uploading ZIP to s3...')
@@ -45,7 +29,7 @@ let uploadZipToS3 = () => {
 		s3.putObject({
 			Body: data,
 			Bucket: s3Bucket,
-			Key: zipFolder
+			Key: zipFolder + '.zip'
 		}, (err, data) => {
 			console.log('Done.')
 			if (err) { throw err; }
@@ -68,3 +52,20 @@ let uploadS3ToLambda = (s3Url) => {
 		console.log('Done.')
 	})
 }
+
+// Zip all of the files in the given directory
+console.log('Zipping Lambda function...')
+let output = fs.createWriteStream(zipFolder + '.zip')
+let archive = archiver('zip', {
+	zlib: { level: 9 }
+})
+
+output.on('close', () => {
+	console.log(archive.pointer() + ' total bytes');
+	console.log('Done.')
+	uploadZipToS3()
+})
+
+archive.pipe(output)
+archive.directory(pathToFolder, false)
+archive.finalize()
