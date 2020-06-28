@@ -15,8 +15,8 @@ let region = config.region
 
 AWS.config.update({
 	region: region,
-	accessKeyId: credentials.aws_access_key_id,
-	secretAccessKey: credentials.aws_secret_access_key
+	accessKeyId: credentials.default.aws_access_key_id,
+	secretAccessKey: credentials.default.aws_secret_access_key
 });
 
 let uploadZipToS3 = () => {
@@ -42,11 +42,13 @@ let uploadS3ToLambda = (s3Url) => {
 	console.log('Uploading s3 object to lambda function...')
 
 	let lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
-
+	console.log("lambdaFunction:", lambdaFunction)
+	console.log("S3Bucket:", s3Bucket)
+	console.log("zipFolder:", zipFolder)
 	lambda.updateFunctionCode({
 		FunctionName: lambdaFunction,
 		S3Bucket: s3Bucket,
-		S3Key: zipFolder
+		S3Key: zipFolder + '.zip'
 	}, (err, data) => {
 		if (err) { throw err; }
 		console.log('Done.')
