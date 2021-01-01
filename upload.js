@@ -1,11 +1,31 @@
-// Import your credentials however you have them saved
-const credentials = require('../credentials')
-
-const config = require ('./config')
 const spawn = require('child_process')
 const fs = require('fs')
 const archiver = require('archiver')
 var AWS = require('aws-sdk')
+let config
+
+var account = process.env.npm_config_account
+
+// Get the right credentials based on the account
+if (account === 'arprod'){
+	var credentials = require('../credentials_ar_prod')
+} else if (account === 'ardev') {
+	var credentials = require('../credentials_ar_dev')
+} else {
+	var credentials = require("../credentials")
+}
+
+// Get the right config based on the account
+if (account === 'arprod') {
+	const {ar_prod} = require ('./config')
+	config = ar_prod
+} else if (account === 'ardev') {
+	const {ar_dev} = require ('./config')
+	config = ar_dev
+} else if (account === 'projectqdev') {
+	const {project_q_dev} = require ('./config')
+	config = project_q_dev
+}
 
 let pathToFolder = config.pathToFolder
 let zipFolder =	pathToFolder.split('/').pop()
@@ -52,6 +72,7 @@ let uploadS3ToLambda = (s3Url) => {
 	}, (err, data) => {
 		if (err) { throw err; }
 		console.log('Done.')
+		fs.unlinkSync(zipFolder + '.zip')
 	})
 }
 

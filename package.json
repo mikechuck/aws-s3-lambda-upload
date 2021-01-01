@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "upload.js",
   "scripts": {
-    "upload": "node upload.js"
+    "upload": "node upload.js --account=$npm_config_account"
   },
   "author": "",
   "license": "ISC",
