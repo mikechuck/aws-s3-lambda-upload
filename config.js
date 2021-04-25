@@ -6,13 +6,13 @@ exports.project_q_dev = {
 }
 exports.ar_prod = {
     region: "us-east-2",
-    pathToFolder: "../../Autorest/Services/autorest-services/updatePaymentMethod",
+    pathToFolder: "../../Autorest/Services/autorest-services/updateEndpointDetails",
     s3Bucket: "autorest-ohio-lambdas",
-    lambdaFunction: "updatePaymentMethod",
+    lambdaFunction: "updateEndpointDetails",
 }
 exports.ar_dev = {
     region: "us-east-2",
-    pathToFolder: "../../Autorest/Services/autorest-services/successfulPaymentsStripeWebhook",
+    pathToFolder: "../../Autorest/Services/autorest-services/createProjectbyUUID",
     s3Bucket: "autorest-ohio-lambdas-dev",
-    lambdaFunction: "successfulPaymentsStripeWebhook",
+    lambdaFunction: "createProjectbyUUID",
 }
